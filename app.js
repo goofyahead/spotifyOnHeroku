@@ -6,7 +6,7 @@ var key = 'arkguinscanfly2';
 //request a user with a key
 app.get('/spotify/:id', function(request, response) {
   var key = request.query.key;
-  var item = req.params.id;
+  var item = request.params.id;
   if (key != appKey) {
     response.send(400);
     return;
