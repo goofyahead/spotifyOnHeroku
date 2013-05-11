@@ -1,13 +1,19 @@
 var express = require("express");
 var app = express();
 app.use(express.logger());
+var key = 'arkguinscanfly2';
 
-app.get('/', function(request, response) {
-  
+//request a user with a key
+app.get('/spotify/:id', function(request, response) {
+  var key = request.query.key;
+  var item = req.params.id;
+  if (key != appKey) {
+    response.send(400);
+    return;
+  }
+
   var that = this;
   var data = {};
-  var item = 'goofyahead';
-
 
   console.log(item.toString().green + ' item processed'.green);
   console.log(__dirname);
