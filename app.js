@@ -32,15 +32,20 @@ app.get('/spotify/:id', function(request, response) {
            console.log(error.stack);
            console.log('Error code: ' + error.code);
            console.log('Signal received: ' + error.signal);
+           response.send(400);
           }
 
           var out = stdout.toString();
           out = out.replace(/}{/g,'},{');  
-          out = '{"lists" : [' + out + ']}';       
-          var musicJson = JSON.parse(out);
-          
-          data['music'] = musicJson;
-          console.log(data);
+          out = '{"lists" : [' + out + ']}';
+
+          try {
+            var musicJson = JSON.parse(out);
+            data['music'] = musicJson;
+          } catch (exception) {
+            response.send(400);
+          }
+
           response.send(data);
   });
 
