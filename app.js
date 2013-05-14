@@ -14,7 +14,7 @@ app.get('/spotify/:id', function(request, response) {
 
   var that = this;
   var data = {};
-  response.write('ey');
+
   console.log(item.toString().green + ' item processed'.green);
   console.log(__dirname);
 
@@ -51,6 +51,13 @@ app.get('/spotify/:id', function(request, response) {
 });
 
 var port = process.env.PORT || 5000;
+
 app.listen(port, function() {
   console.log("Listening on " + port);
+});
+
+app..on('connection', function(socket) {
+  console.log("A new connection was made by a client.");
+  socket.setTimeout(90 * 1000); 
+  // 30 second timeout. Change this as you see fit.
 });
