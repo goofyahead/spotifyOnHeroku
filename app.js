@@ -55,9 +55,3 @@ var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
-
-app.on('connection', function(socket) {
-  console.log("A new connection was made by a client.");
-  socket.setTimeout(90 * 1000); 
-  // 30 second timeout. Change this as you see fit.
-});
