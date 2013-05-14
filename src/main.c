@@ -382,7 +382,7 @@ int main(int argc, char **argv){
     while (g_running) {
         sp_session_process_events(session, &next_timeout);
         if (DEBUG) printf("should wait for %d \n",next_timeout);
-        usleep(next_timeout * 100);
+        //usleep(next_timeout * 100);
         if (DEBUG) printf ("elapsed %d \n", (int)time(NULL) - startingProcessTime);
         if (( (int)time(NULL) - startingProcessTime) > MAX_TIMEOUT) g_running = 0;
         //pthread_mutex_lock(&lock);
