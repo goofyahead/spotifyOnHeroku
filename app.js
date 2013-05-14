@@ -41,7 +41,7 @@ app.get('/spotify/:id', function(request, response) {
 
           try {
             var musicJson = JSON.parse(out);
-            data['music'] = musicJson;
+            data = musicJson;
           } catch (exception) {
             response.send(400);
           }
