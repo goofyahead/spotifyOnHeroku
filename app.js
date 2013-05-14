@@ -14,7 +14,7 @@ app.get('/spotify/:id', function(request, response) {
 
   var that = this;
   var data = {};
-
+  response.write('ey');
   console.log(item.toString().green + ' item processed'.green);
   console.log(__dirname);
 
