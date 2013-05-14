@@ -5,6 +5,7 @@
 #include "api.h"
 #include <string.h>
 #include <pthread.h>
+#include <time.h>
 
 #define DEBUG 0
 
@@ -36,6 +37,8 @@ sp_playlist *playListArray[50];
 bool checked[50];
 int playlistCounter = 0;
 int processedCounter = 0;
+int startingProcessTime;
+int MAX_TIMEOUT = 10;
 
 sp_playlist_callbacks pl_callbacks;
 
@@ -44,7 +47,7 @@ char *replace_str(char *str, char *orig, char *rep)
   static char buffer[4096];
   char *p;
 
-  if(!(p = strstr(str, orig))) 
+  if(!(p == strstr(str, orig))) 
     return str;
 
   strncpy(buffer, str, p-str); // Copy characters from 'str' start to 'orig' st$
@@ -52,7 +55,7 @@ char *replace_str(char *str, char *orig, char *rep)
 
   sprintf(buffer+(p-str), "%s%s", rep, p+strlen(orig));
 
-  if(p = strstr(str, orig)) replace_str(buffer, orig, rep);
+  if(p == strstr(str, orig)) replace_str(buffer, orig, rep);
   return buffer;
 }
 
@@ -101,6 +104,7 @@ void run_search(sp_session *session) {
 //******************************************************************************************
 
 void playlist_browse_try() {
+    startingProcessTime = (int)time(NULL);
     //pthread_mutex_lock(&arrayLock);
     // if (browsing == 1) {
     //     if (DEBUG) printf("sorry \n");
@@ -234,6 +238,7 @@ void browse_playlist(sp_playlist *pl)
 void playlist_added(sp_playlistcontainer *pc, sp_playlist *pl,
  int position, void *userdata)
 {
+    //startingProcessTime = (int)time(NULL);
     char *radioList = "Liked from Radio";
     const char *name = sp_playlist_name(pl);
     if (strlen(name) < 1) return;
@@ -373,11 +378,13 @@ int main(int argc, char **argv){
     g_running = 1;
     int next_timeout = 1;
 
-    
+    startingProcessTime = (int)time(NULL);
     while (g_running) {
         sp_session_process_events(session, &next_timeout);
         if (DEBUG) printf("should wait for %d \n",next_timeout);
-        //usleep(next_timeout * 100);
+        usleep(next_timeout * 100);
+        if (DEBUG) printf ("elapsed %d \n", (int)time(NULL) - startingProcessTime);
+        if (( (int)time(NULL) - startingProcessTime) > MAX_TIMEOUT) g_running = 0;
         //pthread_mutex_lock(&lock);
     }
 

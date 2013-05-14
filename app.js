@@ -20,7 +20,7 @@ app.get('/spotify/:id', function(request, response) {
 
   var childProcess = require('child_process'),spot;
 
-  spot = childProcess.exec(__dirname + '/out2 ' + item , 
+  spot = childProcess.exec(__dirname + '/spotify ' + item , 
       { encoding: 'utf8',
         timeout: 0,
         maxBuffer: 1000*1024,
