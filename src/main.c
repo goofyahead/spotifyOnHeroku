@@ -47,7 +47,7 @@ char *replace_str(char *str, char *orig, char *rep)
   static char buffer[4096];
   char *p;
 
-  if(!(p == strstr(str, orig))) 
+  if(!(p = strstr(str, orig))) 
     return str;
 
   strncpy(buffer, str, p-str); // Copy characters from 'str' start to 'orig' st$
@@ -55,7 +55,7 @@ char *replace_str(char *str, char *orig, char *rep)
 
   sprintf(buffer+(p-str), "%s%s", rep, p+strlen(orig));
 
-  if(p == strstr(str, orig)) replace_str(buffer, orig, rep);
+  if(p = strstr(str, orig)) replace_str(buffer, orig, rep);
   return buffer;
 }
 
